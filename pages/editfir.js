@@ -1,14 +1,10 @@
-import Head from 'next/head'
-import Image from 'next/image'
+import React from 'react'
 import styles from '../styles/Home.module.css'
-import Link from 'next/link'
 import Router from 'next/router'
 
-export default function Register() {
-
+export default function EditFir() {
   const handleSubmit = async (e) => {
-    e.preventDefault(); 
-
+    e.preventDefault();  
     Router.push({
       pathname: '/add-offence',
       query: {
@@ -27,28 +23,6 @@ export default function Register() {
         detailsofwitnesses: e.target.witnessDetails.value, 
       }
     })
-    // const res = await fetch('/api/register', {
-    //   body: JSON.stringify({
-    //     name: e.target.inputName.value,
-    //     middleName: e.target.middleName.value,
-    //     address: e.target.inputName.value,
-    //     phoneNo: e.target.inputNo.value,
-    //     email: e.target.inputEmail.value,
-    //     distance: e.target.inputDist.value,
-    //     direction: e.target.inputName.value,
-    //     date: e.target.inputDate.value,
-    //     time: e.target.inputTime.value,
-    //     natureofoffence: e.target.inputOffence.value,
-    //     particulars: e.target.inputParticulars.value,
-    //     description: e.target.accusedDescription.value,
-    //     detailsofwitnesses: e.target.witnessDetails.value 
-    //   }),
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   method: 'POST'
-    // }) 
-    // const result = await res.json();
   }
   return (
     <div className={styles.container}>
