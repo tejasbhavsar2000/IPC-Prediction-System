@@ -1,16 +1,21 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
-import Link from 'next/link'
-import Router from 'next/router'
+import Head from "next/head";
+import Image from "next/image";
+import styles from "../styles/Home.module.css";
+import Link from "next/link";
+import Router from "next/router";
+import { useContext, useEffect } from "react";
+import { UserContext } from "../lib/usercontext";
 
 export default function Register() {
-
+  const { userState, setUserState } = useContext(UserContext);
+  useEffect(() => {
+    if (userState == "") Router.push("/login");
+  });
   const handleSubmit = async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
 
     Router.push({
-      pathname: '/add-offence',
+      pathname: "/add-offence",
       query: {
         name: e.target.inputName.value,
         middleName: e.target.middleName.value,
@@ -24,9 +29,9 @@ export default function Register() {
         natureofoffence: e.target.inputOffence.value,
         particulars: e.target.inputParticulars.value,
         description: e.target.accusedDescription.value,
-        detailsofwitnesses: e.target.witnessDetails.value, 
-      }
-    })
+        detailsofwitnesses: e.target.witnessDetails.value,
+      },
+    });
     // const res = await fetch('/api/register', {
     //   body: JSON.stringify({
     //     name: e.target.inputName.value,
@@ -41,111 +46,194 @@ export default function Register() {
     //     natureofoffence: e.target.inputOffence.value,
     //     particulars: e.target.inputParticulars.value,
     //     description: e.target.accusedDescription.value,
-    //     detailsofwitnesses: e.target.witnessDetails.value 
+    //     detailsofwitnesses: e.target.witnessDetails.value
     //   }),
     //   headers: {
     //     'Content-Type': 'application/json'
     //   },
     //   method: 'POST'
-    // }) 
+    // })
     // const result = await res.json();
-  }
+  };
   return (
     <div className={styles.container}>
-       
-
       <main className={styles.main}>
-        <h2 className={styles.title}>
-          Register FIR
-        </h2>
-        
-        <div className="border border-dark rounded mt-5 container" >
-          <form className="m-3" onSubmit={handleSubmit} >
+        <h2 className={styles.title}>Register FIR</h2>
+        {console.log(userState)}
+        <div className="border border-dark rounded mt-5 container">
+          <form className="m-3" onSubmit={handleSubmit}>
             <h2>Personal Details</h2>
             <div className="row">
               <div className="mb-3 col-sm">
-                <label for="exampleInputEmail1" className="form-label">Name</label>
-                <input type="text" className="form-control" id="inputName" aria-describedby="nameHelp" />
+                <label htmlFor="exampleInputEmail1" className="form-label">
+                  Name
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="inputName"
+                  aria-describedby="nameHelp"
+                />
               </div>
               <div className="mb-3 col-sm">
-                <label for="exampleInputMiddleName" className="form-label">Father's / Husband's Name</label>
-                <input type="text" className="form-control" id="middleName" aria-describedby="middleHelp" /> 
+                <label htmlFor="exampleInputMiddleName" className="form-label">
+                  Father&apos;s / Husband&apos;s Name
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="middleName"
+                  aria-describedby="middleHelp"
+                />
               </div>
             </div>
 
             <div className="row">
               <div className="mb-3 col-sm">
-                <label for="exampleInputNo" className="form-label">Contact Number</label>
-                <input type="text" className="form-control" id="inputNo" aria-describedby="nameNo" />
+                <label htmlFor="exampleInputNo" className="form-label">
+                  Contact Number
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="inputNo"
+                  aria-describedby="nameNo"
+                />
               </div>
               <div className="mb-3 col-sm">
-                <label for="exampleInputEmail1" className="form-label">Email address</label>
-                <input type="email" className="form-control" id="inputEmail" aria-describedby="emailHelp" />
-                </div>
+                <label htmlFor="exampleInputEmail1" className="form-label">
+                  Email address
+                </label>
+                <input
+                  type="email"
+                  className="form-control"
+                  id="inputEmail"
+                  aria-describedby="emailHelp"
+                />
+              </div>
             </div>
             <div className="row">
               <div className="mb-3 col-sm">
-                <label for="exampleInputAddress" className="form-label">Address</label> 
-                <textarea className="form-control" id="address" rows="3"></textarea> 
-              </div> 
+                <label htmlFor="exampleInputAddress" className="form-label">
+                  Address
+                </label>
+                <textarea
+                  className="form-control"
+                  id="address"
+                  rows="3"
+                ></textarea>
+              </div>
             </div>
 
             <h2>Place of Occurence</h2>
             <div className="row">
               <div className="mb-3 col-sm">
-                <label for="exampleInputDist" className="form-label">Distance from the police station</label>
-                <input type="text" className="form-control" id="inputDist" aria-describedby="nameDist" />
+                <label htmlFor="exampleInputDist" className="form-label">
+                  Distance from the police station
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="inputDist"
+                  aria-describedby="nameDist"
+                />
               </div>
               <div className="mb-3 col-sm">
-                <label for="exampleInputMiddleName" className="form-label">Direction from the police station</label>
-                <input type="text" className="form-control" id="inputDirection" aria-describedby="middleHelp" /> 
+                <label htmlFor="exampleInputMiddleName" className="form-label">
+                  Direction from the police station
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="inputDirection"
+                  aria-describedby="middleHelp"
+                />
               </div>
             </div>
 
             <h2>Date and Hour of Occurence</h2>
             <div className="row">
               <div className="mb-3 col-sm">
-                <label for="exampleInputDist" className="form-label">Date</label>
-                <input type="date" className="form-control" id="inputDate" aria-describedby="nameDate" />
+                <label htmlFor="exampleInputDist" className="form-label">
+                  Date
+                </label>
+                <input
+                  type="date"
+                  className="form-control"
+                  id="inputDate"
+                  aria-describedby="nameDate"
+                />
               </div>
               <div className="mb-3 col-sm">
-                <label for="exampleInputMiddleName" className="form-label">Time</label>
-                <input type="time" className="form-control" id="inputTime" aria-describedby="nameTime" /> 
+                <label htmlFor="exampleInputMiddleName" className="form-label">
+                  Time
+                </label>
+                <input
+                  type="time"
+                  className="form-control"
+                  id="inputTime"
+                  aria-describedby="nameTime"
+                />
               </div>
             </div>
 
             <h2>Offence</h2>
             <div className="row">
               <div className="mb-3 col-sm">
-                <label for="exampleInputDist" className="form-label">Nature of Offence</label>
-                <input type="text" className="form-control" id="inputOffence" aria-describedby="nameOffence" />
+                <label htmlFor="exampleInputDist" className="form-label">
+                  Nature of Offence
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="inputOffence"
+                  aria-describedby="nameOffence"
+                />
               </div>
               <div className="mb-3 col-sm">
-                <label for="exampleInputParticulars" className="form-label">Particulars of the Property</label>
-                <input type="text" className="form-control" id="inputParticulars" aria-describedby="nameParticulars" /> 
+                <label htmlFor="exampleInputParticulars" className="form-label">
+                  Particulars of the Property
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="inputParticulars"
+                  aria-describedby="nameParticulars"
+                />
               </div>
-              
             </div>
             <div className="row">
               <div className="mb-3 col-sm">
-                <label for="exampleInputParticulars" className="form-label">Description of Accused</label>
-                <textarea className="form-control" id="accusedDescription" rows="3"></textarea>  
+                <label htmlFor="exampleInputParticulars" className="form-label">
+                  Description of Accused
+                </label>
+                <textarea
+                  className="form-control"
+                  id="accusedDescription"
+                  rows="3"
+                ></textarea>
               </div>
-            </div> 
+            </div>
             <div className="row">
               <div className="mb-3 col-sm">
-                <label for="exampleInputWitness" className="form-label">Details of Witnesses</label>
-                <textarea className="form-control" id="witnessDetails" rows="3"></textarea>  
+                <label htmlFor="exampleInputWitness" className="form-label">
+                  Details of Witnesses
+                </label>
+                <textarea
+                  className="form-control"
+                  id="witnessDetails"
+                  rows="3"
+                ></textarea>
               </div>
-            </div> 
-            <button type="" className="btn btn-primary">Next</button> 
+            </div>
+            <button type="" className="btn btn-primary">
+              Next
+            </button>
           </form>
         </div>
       </main>
 
-      <footer className={styles.footer}>
-
-      </footer>
+      <footer className={styles.footer}></footer>
     </div>
-  )
+  );
 }
