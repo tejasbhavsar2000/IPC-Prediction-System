@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styles from "../styles/Home.module.css";
+import styles from "../../styles/Home.module.css";
 import Router, { useRouter } from "next/router";
 import axios from "axios";
 
@@ -23,31 +23,7 @@ export default function EditFir() {
       corpus,
     },
   } = router;
-  const [data, setData] = useState({
-    name: name,
-    middleName: middleName,
-    address: address,
-    phoneNo: phoneNo,
-    email: email,
-    distance: distance,
-    direction: direction,
-    date: date,
-    time: time,
-    natureofoffence: natureofoffence,
-    particulars: particulars,
-    description: description,
-    detailsofwitnesses: detailsofwitnesses,
-    corpus: corpus,
-  });
-  console.log(corpus);
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    console.log(name, value);
-    setData({
-      ...data,
-      [name]: value,
-    });
-  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -67,7 +43,6 @@ export default function EditFir() {
         particulars: e.target.inputParticulars.value,
         description: e.target.accusedDescription.value,
         detailsofwitnesses: e.target.witnessDetails.value,
-        offence: corpus,
       },
     });
   };
@@ -86,9 +61,6 @@ export default function EditFir() {
                 </label>
                 <input
                   type="text"
-                  onChange={handleChange}
-                  name="name"
-                  value={data.name}
                   className="form-control"
                   id="inputName"
                   aria-describedby="nameHelp"
@@ -99,9 +71,6 @@ export default function EditFir() {
                   Father's / Husband's Name
                 </label>
                 <input
-                  value={data.middleName}
-                  onChange={handleChange}
-                  name="middleName"
                   type="text"
                   className="form-control"
                   id="middleName"
@@ -116,9 +85,6 @@ export default function EditFir() {
                   Contact Number
                 </label>
                 <input
-                  value={data.phoneNo}
-                  onChange={handleChange}
-                  name="phoneNo"
                   type="text"
                   className="form-control"
                   id="inputNo"
@@ -130,9 +96,6 @@ export default function EditFir() {
                   Email address
                 </label>
                 <input
-                  value={data.email}
-                  onChange={handleChange}
-                  name="email"
                   type="email"
                   className="form-control"
                   id="inputEmail"
@@ -146,9 +109,6 @@ export default function EditFir() {
                   Address
                 </label>
                 <textarea
-                  value={data.address}
-                  onChange={handleChange}
-                  name="address"
                   className="form-control"
                   id="address"
                   rows="3"
@@ -163,9 +123,6 @@ export default function EditFir() {
                   Distance from the police station
                 </label>
                 <input
-                  value={data.distance}
-                  onChange={handleChange}
-                  name="distance"
                   type="text"
                   className="form-control"
                   id="inputDist"
@@ -178,9 +135,6 @@ export default function EditFir() {
                 </label>
                 <input
                   type="text"
-                  value={data.direction}
-                  onChange={handleChange}
-                  name="direction"
                   className="form-control"
                   id="inputDirection"
                   aria-describedby="middleHelp"
@@ -196,9 +150,6 @@ export default function EditFir() {
                 </label>
                 <input
                   type="date"
-                  value={data.date}
-                  onChange={handleChange}
-                  name="date"
                   className="form-control"
                   id="inputDate"
                   aria-describedby="nameDate"
@@ -210,9 +161,6 @@ export default function EditFir() {
                 </label>
                 <input
                   type="time"
-                  value={data.time}
-                  onChange={handleChange}
-                  name="time"
                   className="form-control"
                   id="inputTime"
                   aria-describedby="nameTime"
@@ -227,9 +175,6 @@ export default function EditFir() {
                   Nature of Offence
                 </label>
                 <input
-                  value={data.natureofoffence}
-                  onChange={handleChange}
-                  name="natureofoffence"
                   type="text"
                   className="form-control"
                   id="inputOffence"
@@ -241,9 +186,6 @@ export default function EditFir() {
                   Particulars of the Property
                 </label>
                 <input
-                  value={data.particulars}
-                  onChange={handleChange}
-                  name="particulars"
                   type="text"
                   className="form-control"
                   id="inputParticulars"
@@ -257,9 +199,6 @@ export default function EditFir() {
                   Description of Accused
                 </label>
                 <textarea
-                  value={data.description}
-                  onChange={handleChange}
-                  name="description"
                   className="form-control"
                   id="accusedDescription"
                   rows="3"
@@ -272,9 +211,6 @@ export default function EditFir() {
                   Details of Witnesses
                 </label>
                 <textarea
-                  value={data.detailsofwitnesses}
-                  onChange={handleChange}
-                  name="detailsofwitnesses"
                   className="form-control"
                   id="witnessDetails"
                   rows="3"

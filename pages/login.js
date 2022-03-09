@@ -6,6 +6,7 @@ import Router from "next/router";
 import Link from "next/link";
 import Image from "next/image";
 import { UserContext } from "../lib/usercontext";
+import runModel from "../lib/runModel";
 
 const Login = () => {
   const { userState, setUserState } = useContext(UserContext);
@@ -45,12 +46,11 @@ const Login = () => {
   };
   const login = () => {
     axios.post("/api/login", user).then((res) => {
-      alert(res.data.message);
-
       if (res.data.message === "Login Successfull") {
+        alert(res.data.message);
         setUserState(res.data.user);
         if (res.data.user.type == "Officer") Router.push("/register");
-        else if (res.data.user.type == "PI") Router.push("/");
+        else if (res.data.user.type == "PI") Router.push("/pipage");
       }
 
       //setLoginUser(res.data.user);
