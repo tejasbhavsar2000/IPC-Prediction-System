@@ -59,10 +59,10 @@ const Register = () => {
     <div className={styles.outer}>
       <div className={styles.navbar}>
         <div className={styles.logo}>
-          <Image src="/Logo.jpg" width=" 150px" height="100px"></Image>
+          {/* <Image src="/Logo.jpg" width=" 150px" height="100px"></Image> */}
         </div>
       </div>
-      <div className={styles.heading}>Indian Penal Code Suggestor </div>
+      <div className={styles.heading}>पोलिस दंड विधान सहाय्यक</div>
       <motion.form
         className={styles.register}
         variants={dropIn}

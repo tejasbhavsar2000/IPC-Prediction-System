@@ -102,7 +102,7 @@ export default function AddOffence() {
       <main className={styles.main}>
         <h2 className={styles.title}>Register FIR</h2>
 
-        <div className="border border-dark rounded mt-3 p-3 container h">
+        <div className="bg-white shadow-lg border border-dark rounded mt-3 p-3 container h">
           <div className="row">
             <div className="mb-3 col-sm-6">
               <h3>FIR Details</h3>
@@ -162,8 +162,10 @@ export default function AddOffence() {
               <p className="form-label">
                 <i className="fw-bold">Add IPC: </i>
                 <form onSubmit={addIPC}>
-                  <input type="text" name="ipc"></input>
-                  <button type="submit"> ADD</button>
+                <div class="col-auto"> 
+                  <input className="form-control" type="text" name="ipc"></input>
+                  <button className="m-2 btn btn-outline-dark" type="submit"> ADD</button>
+                </div>
                 </form>
               </p>
               <p className="form-label">
@@ -199,15 +201,15 @@ export default function AddOffence() {
               </label>
               <textarea
                 form="offenceform"
-                className="form-control h-75"
+                className="form-control h-50"
                 onChange={handleOnChange}
                 id="offence"
                 value={props.offence}
                 rows="3"
               ></textarea>
-              <button onClick={handleOnClick}>Generate IPC</button>
-              <form name="offenceform" onSubmit={handleSubmit}>
-                <button type="submit">Submit</button>
+              <button className="mt-3 btn btn-outline-dark" onClick={handleOnClick}>Generate IPC</button>
+              <form className = "mt-3" name="offenceform" onSubmit={handleSubmit}>
+                <button className="btn btn-outline-dark" type="submit">Submit</button>
               </form>
             </div>
           </div>

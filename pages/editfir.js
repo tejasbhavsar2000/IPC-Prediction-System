@@ -76,7 +76,7 @@ export default function EditFir() {
       <main className={styles.main}>
         <h2 className={styles.title}>Register FIR</h2>
 
-        <div className="border border-dark rounded mt-5 container">
+        <div className="bg-white shadow-lg border border-dark rounded mt-5 container">
           <form className="m-3" onSubmit={handleSubmit}>
             <h2>Personal Details</h2>
             <div className="row">
