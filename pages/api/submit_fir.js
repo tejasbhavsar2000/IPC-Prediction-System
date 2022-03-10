@@ -17,6 +17,7 @@ export default async function handle(req, res) {
     description,
     detailsofwitnesses,
     corpus,
+    ipc,
   } = req.body;
   const fir = new FIR({
     name,
@@ -33,6 +34,7 @@ export default async function handle(req, res) {
     description,
     detailsofwitnesses,
     corpus,
+    ipc,
     status: false,
   });
   fir.save((err) => {

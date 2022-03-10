@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import { useState } from "react";
 import styles from "../styles/Home.module.css";
 
@@ -45,27 +45,36 @@ export default function AddOffence() {
   };
 
   console.log(props);
-  const handleSubmit = () => {
-    axios
-      .post("/api/submit_fir", {
-        name,
-        middleName,
-        address,
-        phoneNo,
-        email,
-        distance,
-        direction,
-        date,
-        time,
-        natureofoffence,
-        particulars,
-        description,
-        detailsofwitnesses,
-        corpus,
-      })
-      .then((res) => {
-        alert(res.data.message);
-      });
+  const handleSubmit = (event) => {
+    console.log(ipc);
+    if (ipc.length == 0) {
+      alert("Check IPC before Submitting");
+      event.preventDefault();
+    } else {
+      axios
+        .post("/api/submit_fir", {
+          name,
+          middleName,
+          address,
+          phoneNo,
+          email,
+          distance,
+          direction,
+          date,
+          time,
+          natureofoffence,
+          particulars,
+          description,
+          detailsofwitnesses,
+          corpus,
+          ipc,
+        })
+        .then((res) => {
+          alert(res.data.message);
+          event.preventDefault();
+        });
+      Router.push("/register");
+    }
   };
   const handleOnChange = (e) => {
     setCorpus(e.target.value);
@@ -80,6 +89,13 @@ export default function AddOffence() {
         console.log(res.data);
         setIPCs(res.data.ipc);
       });
+  };
+
+  const addIPC = (e) => {
+    e.preventDefault();
+    const temp = e.target.ipc.value + " IPC";
+    setIPCs([...ipc, temp]);
+    setClick(true);
   };
   return (
     <div>
@@ -143,6 +159,36 @@ export default function AddOffence() {
                 <i className="fw-bold">Details of witnesses (if any): </i>
                 {props.detailsofwitnesses}
               </p>
+              <p className="form-label">
+                <i className="fw-bold">Add IPC: </i>
+                <form onSubmit={addIPC}>
+                  <input type="text" name="ipc"></input>
+                  <button type="submit"> ADD</button>
+                </form>
+              </p>
+              <p className="form-label">
+                <i className="fw-bold">IPC Applicable: </i>
+                {click && (
+                  <div style={{ width: "fit-content" }}>
+                    {ipc.length == 0 ? (
+                      <div>Loading</div>
+                    ) : (
+                      <div>
+                        {ipc.map((item, index) => {
+                          return (
+                            <div
+                              key={index}
+                              style={{ border: "solid black 1px" }}
+                            >
+                              {item}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </p>
             </div>
             <div className="mb-3 col-sm-6">
               <label
@@ -166,23 +212,6 @@ export default function AddOffence() {
             </div>
           </div>
         </div>
-        {click && (
-          <div>
-            {ipc.length == 0 ? (
-              <div>Loading</div>
-            ) : (
-              <div>
-                {ipc.map((item, index) => {
-                  return (
-                    <div key={index} style={{ border: "solid black 1px" }}>
-                      {item}
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-        )}
       </main>
     </div>
   );
