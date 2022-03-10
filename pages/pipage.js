@@ -40,7 +40,7 @@ export default function PiPage() {
   return (
     <div>
       <main className={styles.main}>
-        <h2 className={styles.title}>Approve/Edit FIR</h2>
+        <h1 >Approve/Edit FIR</h1>
         <div className="container">
           <h3>Pending FIR</h3>
           {unapproved.map((item) => {

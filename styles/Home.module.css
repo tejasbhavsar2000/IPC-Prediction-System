@@ -1,15 +1,18 @@
-.container {
+.container {  
+  background-color: #F0E68C;
   padding: 0 2rem;
 }
 
-.main {
+.main {   
+  background-color: #F0E68C;
+  color: #170053;
   min-height: 100vh;
-  padding: 4rem 0;
+  padding: 1rem 0;
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /*align-items: center;*/
+  align-items: center;
 }
 
 .footer {
