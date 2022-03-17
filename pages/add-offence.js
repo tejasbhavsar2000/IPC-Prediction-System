@@ -1,13 +1,17 @@
 import axios from "axios";
 import Router, { useRouter } from "next/router";
 import { useState } from "react";
+import { Accordion } from "react-bootstrap";
 import styles from "../styles/Home.module.css";
 
 export default function AddOffence() {
   const router = useRouter();
   const [corpus, setCorpus] = useState("");
+  const [count, setCount] = useState(0);
   const [click, setClick] = useState(false);
   const [ipc, setIPCs] = useState([]);
+  const [detail, setDetails] = useState([]);
+  const [punishment, setPunishment] = useState([]);
   const {
     query: {
       name,
@@ -87,7 +91,10 @@ export default function AddOffence() {
       })
       .then((res) => {
         console.log(res.data);
-        setIPCs(res.data.ipc);
+        setIPCs(res.data.ipc.ipc);
+        setDetails(res.data.ipc.detail);
+        setPunishment(res.data.ipc.punishment);
+        console.log(ipc + " " + punishment + " " + detail);
       });
   };
 
@@ -95,6 +102,7 @@ export default function AddOffence() {
     e.preventDefault();
     const temp = e.target.ipc.value + " IPC";
     setIPCs([...ipc, temp]);
+    e.target.ipc.value = "";
     setClick(true);
   };
   return (
@@ -162,10 +170,17 @@ export default function AddOffence() {
               <p className="form-label">
                 <i className="fw-bold">Add IPC: </i>
                 <form onSubmit={addIPC}>
-                <div class="col-auto"> 
-                  <input className="form-control" type="text" name="ipc"></input>
-                  <button className="m-2 btn btn-outline-dark" type="submit"> ADD</button>
-                </div>
+                  <div class="col-auto">
+                    <input
+                      className="form-control"
+                      type="text"
+                      name="ipc"
+                    ></input>
+                    <button className="m-2 btn btn-outline-dark" type="submit">
+                      {" "}
+                      ADD
+                    </button>
+                  </div>
                 </form>
               </p>
               <p className="form-label">
@@ -178,12 +193,35 @@ export default function AddOffence() {
                       <div>
                         {ipc.map((item, index) => {
                           return (
-                            <div
-                              key={index}
-                              style={{ border: "solid black 1px" }}
-                            >
-                              {item}
-                            </div>
+                            <>
+                              <Accordion key={index} defaultActiveKey="0">
+                                <Accordion.Item
+                                  eventKey={index}
+                                  id={`A${index}`}
+                                >
+                                  <Accordion.Header>
+                                    {item} {detail[index]}
+                                  </Accordion.Header>
+                                  <Accordion.Body>
+                                    {punishment[index]}
+                                  </Accordion.Body>
+                                </Accordion.Item>
+                              </Accordion>
+                              <button
+                                onClick={() => {
+                                  console.log("work");
+                                  const temp1 = ipc;
+                                  temp1.splice(index, 1);
+                                  setIPCs(temp1);
+                                  console.log(ipc);
+                                  setCount(count + 1);
+
+                                  console.log(ipc);
+                                }}
+                              >
+                                Delete
+                              </button>
+                            </>
                           );
                         })}
                       </div>
@@ -207,9 +245,16 @@ export default function AddOffence() {
                 value={props.offence}
                 rows="3"
               ></textarea>
-              <button className="mt-3 btn btn-outline-dark" onClick={handleOnClick}>Generate IPC</button>
-              <form className = "mt-3" name="offenceform" onSubmit={handleSubmit}>
-                <button className="btn btn-outline-dark" type="submit">Submit</button>
+              <button
+                className="mt-3 btn btn-outline-dark"
+                onClick={handleOnClick}
+              >
+                Generate IPC
+              </button>
+              <form className="mt-3" name="offenceform" onSubmit={handleSubmit}>
+                <button className="btn btn-outline-dark" type="submit">
+                  Submit
+                </button>
               </form>
             </div>
           </div>
