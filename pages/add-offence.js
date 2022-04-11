@@ -48,13 +48,21 @@ export default function AddOffence() {
     offence,
   };
 
-  console.log(props);
   const handleSubmit = (event) => {
-    console.log(ipc);
     if (ipc.length == 0) {
       alert("Check IPC before Submitting");
       event.preventDefault();
     } else {
+      let obj = [];
+      event.preventDefault();
+      for (let i = 0; i < ipc.length; i++) {
+        obj = [
+          ...obj,
+          { ipc: ipc[i], detail: detail[i], punishment: punishment[i] },
+        ];
+      }
+      console.log(obj);
+
       axios
         .post("/api/submit_fir", {
           name,
@@ -71,7 +79,7 @@ export default function AddOffence() {
           description,
           detailsofwitnesses,
           corpus,
-          ipc,
+          ipc: obj,
         })
         .then((res) => {
           alert(res.data.message);
@@ -80,6 +88,7 @@ export default function AddOffence() {
       Router.push("/register");
     }
   };
+
   const handleOnChange = (e) => {
     setCorpus(e.target.value);
   };
@@ -90,11 +99,9 @@ export default function AddOffence() {
         corpus: corpus,
       })
       .then((res) => {
-        console.log(res.data);
         setIPCs(res.data.ipc.ipc);
         setDetails(res.data.ipc.detail);
         setPunishment(res.data.ipc.punishment);
-        console.log(ipc + " " + punishment + " " + detail);
       });
   };
 
@@ -102,6 +109,11 @@ export default function AddOffence() {
     e.preventDefault();
     const temp = e.target.ipc.value + " IPC";
     setIPCs([...ipc, temp]);
+    axios.post("http://127.0.0.1:5000/getipc", { ipc: temp }).then((res) => {
+      console.log("add" + res.data.detail[0]);
+      setDetails([...detail, res.data.detail[0]]);
+      setPunishment([...punishment, res.data.punishment[0]]);
+    });
     e.target.ipc.value = "";
     setClick(true);
   };
@@ -209,14 +221,11 @@ export default function AddOffence() {
                               </Accordion>
                               <button
                                 onClick={() => {
-                                  console.log("work");
                                   const temp1 = ipc;
                                   temp1.splice(index, 1);
                                   setIPCs(temp1);
-                                  console.log(ipc);
-                                  setCount(count + 1);
 
-                                  console.log(ipc);
+                                  setCount(count + 1);
                                 }}
                               >
                                 Delete

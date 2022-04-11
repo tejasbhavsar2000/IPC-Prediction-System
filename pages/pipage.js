@@ -13,13 +13,11 @@ export default function PiPage() {
   }, []);
   function getApproved() {
     axios.get("/api/getApprovedFir").then((res) => {
-      console.log(res.data.fir);
       setApproved(res.data.fir);
     });
   }
   function getUnapproved() {
     axios.get("/api/get_unapproved_fir").then((res) => {
-      console.log(res);
       setUnApproved(res.data.fir);
     });
   }
@@ -39,7 +37,7 @@ export default function PiPage() {
       getUnapproved();
     });
   }
-  console.log(approved);
+
   return (
     <div>
       <main className={styles.main}>
@@ -55,7 +53,7 @@ export default function PiPage() {
               No Pending FIR
             </div>
           ) : (
-            unapproved.map((item) => {
+            unapproved.map((item, ind) => {
               return (
                 <div
                   style={{ background: "white" }}
@@ -67,16 +65,66 @@ export default function PiPage() {
                     <p>FIR ID: {item._id}</p>
                     <p>Registered By: {item.name}</p>
                     <p>FIR: {item.corpus}</p>
-                    <Accordion key={0} defaultActiveKey="0">
-                      <Accordion.Item eventKey={0}>
-                        <Accordion.Header>Applicable IPC:</Accordion.Header>
-                        {item.ipc.map((ipc, index) => {
-                          return (
-                            <Accordion.Body key={index}>{ipc}</Accordion.Body>
-                          );
-                        })}
-                      </Accordion.Item>
-                    </Accordion>
+                    <p>Applicable IPC:</p>
+                    <form
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        const temp = e.target.ipc.value + " IPC";
+                        axios
+                          .post("http://127.0.0.1:5000/getipc", { ipc: temp })
+                          .then((res) => {
+                            console.log("add" + res.data.detail[0]);
+                            item.ipc.push({
+                              ipc: temp,
+                              detail: res.data.detail[0],
+                              punishment: res.data.punishment[0],
+                            });
+                            setUnApproved([...unapproved]);
+                          });
+                        e.target.ipc.value = "";
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: "10rem",
+                          display: "flex",
+                          margin: "5px 5px 5px 0px",
+                        }}
+                      >
+                        <input
+                          className="form-control"
+                          type="text"
+                          name="ipc"
+                          placeholder="Add IPC's"
+                        ></input>
+                        <button type="submit" className="btn btn-outline-dark">
+                          Add
+                        </button>
+                      </div>
+                    </form>
+
+                    {item.ipc.map((ipc, index) => {
+                      return (
+                        <Accordion key={index} defaultActiveKey="0">
+                          <Accordion.Item eventKey={index} id={`A${index}`}>
+                            <Accordion.Header>
+                              {ipc.ipc} {ipc.detail}
+                            </Accordion.Header>
+                            <Accordion.Body>{ipc.punishment}</Accordion.Body>
+                          </Accordion.Item>
+                          <button
+                            style={{ margin: "5px" }}
+                            onClick={() => {
+                              item.ipc.splice(index, 1);
+                              setUnApproved([...unapproved]);
+                              console.log(unapproved);
+                            }}
+                          >
+                            Delete
+                          </button>
+                        </Accordion>
+                      );
+                    })}
                   </div>
                   <div style={{ margin: "2rem" }}>
                     <button
@@ -84,33 +132,6 @@ export default function PiPage() {
                       className="btn btn-outline-dark"
                     >
                       Approve
-                    </button>{" "}
-                    <button
-                      onClick={() =>
-                        Router.push({
-                          pathname: `/editfir`,
-                          query: {
-                            name: item.name,
-                            middleName: item.middleName,
-                            address: item.address,
-                            phoneNo: item.phoneNo,
-                            email: item.email,
-                            distance: item.distance,
-                            direction: item.direction,
-                            date: item.date,
-                            time: item.time,
-                            natureofoffence: item.natureofoffence,
-                            particulars: item.particulars,
-                            description: item.description,
-                            detailsofwitnesses: item.detailsofwitnesses,
-                            item: item.corpus,
-                          },
-                        })
-                      }
-                      type="button"
-                      className="btn btn-outline-dark"
-                    >
-                      View/ Edit
                     </button>{" "}
                     <button
                       onClick={() => onDelete(item._id)}
@@ -156,45 +177,21 @@ export default function PiPage() {
                       <b>FIR:</b> {item.corpus}
                     </p>
 
-                    <Accordion key={0} defaultActiveKey="0">
-                      <Accordion.Item eventKey={0}>
-                        <Accordion.Header>Applicable IPC:</Accordion.Header>
-                        {item.ipc.map((ipc, index) => {
-                          return (
-                            <Accordion.Body key={index}>{ipc}</Accordion.Body>
-                          );
-                        })}
-                      </Accordion.Item>
-                    </Accordion>
+                    <p>Applicable IPC:</p>
+                    {item.ipc.map((ipc, index) => {
+                      return (
+                        <Accordion key={index} defaultActiveKey="0">
+                          <Accordion.Item eventKey={index} id={`A${index}`}>
+                            <Accordion.Header>
+                              {ipc.ipc} {ipc.detail}
+                            </Accordion.Header>
+                            <Accordion.Body>{ipc.punishment}</Accordion.Body>
+                          </Accordion.Item>
+                        </Accordion>
+                      );
+                    })}
                   </div>
-                  <div style={{ margin: "2rem" }}>
-                    <button
-                      onClick={() =>
-                        Router.push({
-                          pathname: `/editfir`,
-                          query: {
-                            name: item.name,
-                            middleName: item.middleName,
-                            address: item.address,
-                            phoneNo: item.phoneNo,
-                            email: item.email,
-                            distance: item.distance,
-                            direction: item.direction,
-                            date: item.date,
-                            time: item.time,
-                            natureofoffence: item.natureofoffence,
-                            particulars: item.particulars,
-                            description: item.description,
-                            detailsofwitnesses: item.detailsofwitnesses,
-                            corpus: item.corpus,
-                          },
-                        })
-                      }
-                      type="button"
-                      className="btn btn-outline-dark"
-                    >
-                      View/ Edit
-                    </button>{" "}
+                  <div style={{ margin: "2rem 2rem 2rem 0rem" }}>
                     <button
                       onClick={() => onDelete(item._id)}
                       className="btn btn-outline-dark"
